@@ -12,24 +12,45 @@ import javax.inject.Singleton
 
 @Singleton
 class AnimeRepository @Inject constructor(private val api: AnimeAPI) {
-    fun getAnimeResults(query: String): LiveData<AnimeResponse> {
+    fun getUpcomingAnimeResults(query: String): LiveData<AnimeResponse> {
         val animeResponse = MutableLiveData<AnimeResponse>()
-        api.getAnimeList(query).enqueue(object : Callback<AnimeResponse> {
+        api.getUpcomingAnimeList(query).enqueue(object : Callback<AnimeResponse> {
             override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
                 if (response.isSuccessful) {
                     animeResponse.value = response.body()
                 } else {
-                    animeResponse.value = null
+                    val list = listOf<AnimeResponse.Anime>()
+                    val errorAnimeResponse = AnimeResponse(list)
+                    animeResponse.value = errorAnimeResponse
                 }
             }
 
             override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
-                val errorAnime =
-                    AnimeResponse.Anime("Http Error", "Http Error", "Http Error", "Http Error")
                 val list = listOf<AnimeResponse.Anime>()
-                if (BuildConfig.DEBUG && list.size != 0) {
-                    error("Assertion failed")
+                val errorAnimeResponse = AnimeResponse(list)
+                animeResponse.value = errorAnimeResponse
+            }
+
+        })
+        return animeResponse
+    }
+
+    fun getAiringAnimeResults(query: String): LiveData<AnimeResponse> {
+        val animeResponse = MutableLiveData<AnimeResponse>()
+        api.getAiringAnimeList(query).enqueue(object : Callback<AnimeResponse> {
+
+            override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
+                if (response.isSuccessful) {
+                    animeResponse.value = response.body()
+                } else {
+                    val list = listOf<AnimeResponse.Anime>()
+                    val errorAnimeResponse = AnimeResponse(list)
+                    animeResponse.value = errorAnimeResponse
                 }
+            }
+
+            override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
+                val list = listOf<AnimeResponse.Anime>()
                 val errorAnimeResponse = AnimeResponse(list)
                 animeResponse.value = errorAnimeResponse
             }

@@ -13,7 +13,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:adjustViewBounds="true"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/anime_image" />
 
     <View
         android:layout_width="match_parent"
@@ -28,8 +29,9 @@
         android:layout_below="@id/image_view"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:text="Anime Title"
-        android:textColor="@color/white"
+        android:lines="1"
+        android:text="@string/anime_title"
+        android:textColor="@color/mypink"
         android:textSize="13sp"
         android:textStyle="italic" />
 </RelativeLayout>

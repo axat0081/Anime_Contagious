@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Anime Contagious</string>
+    <string name="error_message">Please wait while data is being loaded. It may take longer in case of slow internet access.</string>
+    <string name="anime_url">Anime URL</string>
+    <string name="start_date">Start Date-</string>
+    <string name="title">Title-</string>
+    <string name="go_to_page">Go to Page</string>
+    <string name="upcoming_anime">Upcoming Anime</string>
+    <string name="airing_anime">Airing Anime</string>
+    <string name="anime_title">Anime Title</string>
+    <string name="anime_image">Anime image</string>
 </resources>

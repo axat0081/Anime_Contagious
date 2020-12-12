@@ -27,26 +27,39 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetailsBinding.bind(view)
         binding.apply {
-            Glide.with(requireContext())
-                .load(args.Anime.imageUrl)
-                .centerCrop()
-                .fitCenter()
-                .format(DecodeFormat.PREFER_ARGB_8888)
-                .override(Target.SIZE_ORIGINAL)
-                .placeholder(R.drawable.image_not_available)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.image_not_available)
-                .into(detailAnimeImage)
-            detailAnimeTitle.text = args.Anime.title
-            if (args.Anime.startDate == null) {
+            if (args.anime.imageUrl == null) {
+                Glide.with(requireContext())
+                    .load(R.drawable.image_not_available)
+                    .centerCrop()
+                    .fitCenter()
+                    .format(DecodeFormat.PREFER_ARGB_8888)
+                    .override(Target.SIZE_ORIGINAL)
+                    .placeholder(R.drawable.image_not_available)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .error(R.drawable.image_not_available)
+                    .into(detailAnimeImage)
+            } else {
+                Glide.with(requireContext())
+                    .load(args.anime.imageUrl)
+                    .centerCrop()
+                    .fitCenter()
+                    .format(DecodeFormat.PREFER_ARGB_8888)
+                    .override(Target.SIZE_ORIGINAL)
+                    .placeholder(R.drawable.image_not_available)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .error(R.drawable.image_not_available)
+                    .into(detailAnimeImage)
+            }
+            detailAnimeTitle.text = args.anime.title
+            if (args.anime.startDate == null) {
                 detailAnimeStartDate.isVisible = false
             } else {
-                detailAnimeStartDate.text = startDate.plus(args.Anime.startDate)
+                detailAnimeStartDate.text = startDate.plus(args.anime.startDate)
             }
-            val uri = Uri.parse(args.Anime.url)
+            val uri = Uri.parse(args.anime.url)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             detailAnimeUrl.apply {
-                text = details.plus(args.Anime.imageUrl)
+                text = details.plus(args.anime.imageUrl)
                 setOnClickListener {
                     context.startActivity(intent)
                 }

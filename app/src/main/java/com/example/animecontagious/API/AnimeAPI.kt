@@ -12,5 +12,8 @@ interface AnimeAPI {
     }
 
     @GET("anime/{id}/upcoming")
-    fun getAnimeList(@Path("id") id: String): Call<AnimeResponse>
+    fun getUpcomingAnimeList(@Path("id") id: String): Call<AnimeResponse>
+
+    @GET("anime/{id}/airing")
+    fun getAiringAnimeList(@Path("id") id: String): Call<AnimeResponse>
 }

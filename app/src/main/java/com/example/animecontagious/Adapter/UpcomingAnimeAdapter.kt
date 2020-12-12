@@ -11,11 +11,11 @@ import com.example.animecontagious.R
 import com.example.animecontagious.data.AnimeResponse
 import com.example.animecontagious.databinding.DisplayLayoutBinding
 
-class AnimeAdapter(
+class UpcomingAnimeAdapter(
     var context: OnItemClickListener,
     var list: List<AnimeResponse.Anime>
 ) :
-    RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
+    RecyclerView.Adapter<UpcomingAnimeAdapter.AnimeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
         val binding =
@@ -52,15 +52,27 @@ class AnimeAdapter(
 
         fun bind(anime: AnimeResponse.Anime) {
             binding.apply {
-                Glide.with(itemView)
-                    .load(anime.imageUrl)
-                    .centerCrop()
-                    .fitCenter()
-                    .placeholder(R.drawable.image_not_available)
-                    .format(DecodeFormat.PREFER_ARGB_8888)
-                    .override(Target.SIZE_ORIGINAL)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imageView)
+                if (anime.imageUrl == null) {
+                    Glide.with(itemView)
+                        .load(R.drawable.image_not_available)
+                        .centerCrop()
+                        .fitCenter()
+                        .placeholder(R.drawable.image_not_available)
+                        .format(DecodeFormat.PREFER_ARGB_8888)
+                        .override(Target.SIZE_ORIGINAL)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(imageView)
+                } else {
+                    Glide.with(itemView)
+                        .load(anime.imageUrl)
+                        .centerCrop()
+                        .fitCenter()
+                        .placeholder(R.drawable.image_not_available)
+                        .format(DecodeFormat.PREFER_ARGB_8888)
+                        .override(Target.SIZE_ORIGINAL)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(imageView)
+                }
                 if (anime.title?.length!! <= 45)
                     textView.text = anime.title
                 else

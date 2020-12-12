@@ -3,13 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
-
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.animecontagious.ui.HomeFragment"
+        android:label="Anime Contagoius"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_airingFragment2"
+            app:destination="@id/airingFragment2" />
+        <action
+            android:id="@+id/action_homeFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/airingFragment2"
+        android:name="com.example.animecontagious.ui.AiringFragment"
+        android:label="Airing Anime"
+        tools:layout="@layout/fragment_airing">
+        <action
+            android:id="@+id/action_airingFragment2_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.animecontagious.ui.MainFragment"
         android:label="Upcoming Anime"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -17,10 +37,10 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.animecontagious.ui.DetailsFragment"
-        android:label="About Anime"
+        android:label="Anime Details"
         tools:layout="@layout/fragment_details" >
         <argument
-            android:name="Anime"
+            android:name="anime"
             app:argType="com.example.animecontagious.data.AnimeResponse$Anime" />
     </fragment>
 </navigation>
