@@ -1,8 +1,6 @@
-package com.example.animecontagious.API
+package com.example.animecontagious.api
 
-import androidx.lifecycle.LiveData
 import com.example.animecontagious.data.AnimeResponse
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -12,8 +10,8 @@ interface AnimeAPI {
     }
 
     @GET("anime/{id}/upcoming")
-    fun getUpcomingAnimeList(@Path("id") id: String): Call<AnimeResponse>
+    suspend fun getUpcomingAnimeList(@Path("id") id: String): AnimeResponse
 
     @GET("anime/{id}/airing")
-    fun getAiringAnimeList(@Path("id") id: String): Call<AnimeResponse>
+    suspend fun getAiringAnimeList(@Path("id") id: String): AnimeResponse
 }

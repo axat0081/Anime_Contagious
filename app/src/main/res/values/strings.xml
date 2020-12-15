@@ -9,4 +9,8 @@
     <string name="airing_anime">Airing Anime</string>
     <string name="anime_title">Anime Title</string>
     <string name="anime_image">Anime image</string>
+    <string name="results_could_not_be_loaded">Results could not be loaded</string>
+    <string name="retry">Retry</string>
+    <string name="no_results_found">No results found</string>
+    <string name="anime_poster">anime_poster</string>
 </resources>

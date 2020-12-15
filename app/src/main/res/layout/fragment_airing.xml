@@ -14,14 +14,47 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/display_layout" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <TextView
-        android:id="@+id/no_internet_textview"
+        android:id="@+id/txt_error"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/error_message"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/retry_btn"
+        android:text="@string/results_could_not_be_loaded"
+        android:textAlignment="center"
         android:textColor="@color/mypink"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/retry_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/retry"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/no_results_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/retry_btn"
+        android:text="@string/no_results_found"
+        android:textAlignment="center"
+        android:textColor="@color/mypink"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        tools:visibility="visible" />
 </RelativeLayout>

@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.example.animecontagious.Adapter.AiringAnimeAdapter
+import androidx.paging.LoadState
+import com.example.animecontagious.adapter.AiringAnimeAdapter
+import com.example.animecontagious.adapter.AnimeLoadStateAdapter
 import com.example.animecontagious.R
 import com.example.animecontagious.data.AnimeResponse
 import com.example.animecontagious.data.AnimeViewModel
@@ -24,30 +26,39 @@ class AiringFragment : Fragment(R.layout.fragment_airing), AiringAnimeAdapter.On
     private val viewModel by viewModels<AnimeViewModel>()
     private var _binding: FragmentAiringBinding? = null
     private val binding get() = _binding!!
-    private lateinit var animeList: List<AnimeResponse.Anime>
-    private lateinit var adapter: AiringAnimeAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAiringBinding.bind(view)
-        val animeData = viewModel.animeAiringData
-        animeData.observe(viewLifecycleOwner) {
-            animeList = it.animeList
-            if (animeList.isEmpty()) {
-                binding.recyclerview.isVisible = false
-                binding.noInternetTextview.isVisible = true
-            } else {
-                binding.noInternetTextview.isVisible = false
-                binding.recyclerview.isVisible = true
-                adapter = AiringAnimeAdapter(
-                    this,
-                    animeList
-                )
-                binding.apply {
-                    recyclerview.setHasFixedSize(true)
-                    recyclerview.itemAnimator = null
-                    recyclerview.adapter = adapter
+        val adapter = AiringAnimeAdapter(this)
+        binding.apply {
+            recyclerview.setHasFixedSize(true)
+            recyclerview.itemAnimator = null
+            recyclerview.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = AnimeLoadStateAdapter { adapter.retry() },
+                footer = AnimeLoadStateAdapter { adapter.retry() }
+            )
+            retryBtn.setOnClickListener {
+                adapter.retry()
+            }
+        }
+        adapter.addLoadStateListener { loadState ->
+            binding.apply {
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                recyclerview.isVisible = loadState.source.refresh !is LoadState.Loading
+                retryBtn.isVisible = loadState.source.refresh is LoadState.Error
+                txtError.isVisible = loadState.source.refresh is LoadState.Error
+                if (loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached &&
+                    adapter.itemCount < 1
+                ) {
+                    recyclerview.isVisible = false
+                    noResultsTxt.isVisible = true
+                } else {
+                    noResultsTxt.isVisible = false
                 }
             }
+        }
+        viewModel.animeAiringData.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         setHasOptionsMenu(true)
     }
@@ -62,7 +73,7 @@ class AiringFragment : Fragment(R.layout.fragment_airing), AiringAnimeAdapter.On
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     val num: Long = query.toLong()
-                    if (num > 8) {
+                    if (num > 7) {
                         Toast.makeText(
                             context,
                             "This page number is not available ",

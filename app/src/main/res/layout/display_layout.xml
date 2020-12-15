@@ -13,8 +13,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:adjustViewBounds="true"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/anime_image" />
+        android:contentDescription="@string/anime_image"
+        android:src="@mipmap/ic_launcher" />
 
     <View
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/image_view"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:lines="1"
         android:text="@string/anime_title"

@@ -14,7 +14,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/animeposter" />
+        android:src="@drawable/animeposter"
+        android:contentDescription="@string/anime_poster" />
 
     <Button
         android:id="@+id/upcoming_anime_button"

@@ -1,4 +1,4 @@
-package com.example.animecontagious.API
+package com.example.animecontagious.api
 
 import dagger.Module
 import dagger.Provides

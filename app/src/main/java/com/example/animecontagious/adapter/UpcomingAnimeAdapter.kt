@@ -1,7 +1,9 @@
-package com.example.animecontagious.Adapter
+package com.example.animecontagious.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
@@ -11,10 +13,24 @@ import com.example.animecontagious.R
 import com.example.animecontagious.data.AnimeResponse
 import com.example.animecontagious.databinding.DisplayLayoutBinding
 
-class AiringAnimeAdapter(
-    var context: OnItemClickListener,
-    var animeList: List<AnimeResponse.Anime>
-) : RecyclerView.Adapter<AiringAnimeAdapter.AnimeViewHolder>() {
+class UpcomingAnimeAdapter(
+    private val listener: OnItemClickListener
+) : PagingDataAdapter<AnimeResponse.Anime, UpcomingAnimeAdapter.AnimeViewHolder>(ANIME_COMPARATOR) {
+
+    companion object {
+        private val ANIME_COMPARATOR = object : DiffUtil.ItemCallback<AnimeResponse.Anime>() {
+            override fun areItemsTheSame(
+                oldItem: AnimeResponse.Anime,
+                newItem: AnimeResponse.Anime
+            ) = (oldItem.title == newItem.title)
+
+            override fun areContentsTheSame(
+                oldItem: AnimeResponse.Anime,
+                newItem: AnimeResponse.Anime
+            ) = oldItem == newItem
+
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
         val binding =
@@ -23,12 +39,10 @@ class AiringAnimeAdapter(
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val anime = animeList[position]
-        holder.bind(anime)
-    }
-
-    override fun getItemCount(): Int {
-        return animeList.size
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
     }
 
     interface OnItemClickListener {
@@ -41,9 +55,9 @@ class AiringAnimeAdapter(
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val item: AnimeResponse.Anime? = animeList[position]
+                    val item = getItem(position)
                     if (item != null) {
-                        context.onItemCLick(item)
+                        listener.onItemCLick(item)
                     }
                 }
             }
@@ -64,6 +78,7 @@ class AiringAnimeAdapter(
                 } else {
                     Glide.with(itemView)
                         .load(anime.imageUrl)
+                        .placeholder(R.drawable.image_not_available)
                         .centerCrop()
                         .fitCenter()
                         .placeholder(R.drawable.image_not_available)
@@ -72,12 +87,8 @@ class AiringAnimeAdapter(
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageView)
                 }
-                if (anime.title?.length!! <= 45)
-                    textView.text = anime.title
-                else
-                    textView.text = anime.title.substring(0, 45).plus("......")
+                textView.text = anime.title
             }
         }
-
     }
 }

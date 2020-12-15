@@ -16,8 +16,8 @@ import com.example.animecontagious.databinding.FragmentDetailsBinding
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
     companion object {
-        private val startDate: String = "Start Date- "
-        private val details: String = "You can find details at ->"
+        private const val startDate: String = "Start Date- "
+        private const val details: String = "You can find details at ->"
     }
 
     private var _binding: FragmentDetailsBinding? = null
